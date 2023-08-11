@@ -14,23 +14,10 @@ const logout = async () => {
  * @param {String} password
  * @returns
  */
-const login = async (email, password) => {
+const login = async ({ email, password }) => {
     const response = await AUTH_API.post(`${AUTH_ENDPOINT}/login`, { email: email, password: password });
 
-    if (response.data.success === false) {
-        return response.data;
-    }
-    //Strip all data except user_id and username from the response
-    const returnData = {
-        success: response.data.success,
-        user: {
-            user_id: response.data.user.user_id,
-            username: response.data.user.username
-        },
-        message: response.data.message
-    };
-
-    return returnData;
+    return response.data.data;
 };
 
 /**
@@ -40,7 +27,7 @@ const login = async (email, password) => {
  * @param {String} password
  * @returns
  */
-const register = async (username, email, password) => {
+const register = async ({ username, email, password }) => {
     const response = await AUTH_API.post(`${AUTH_ENDPOINT}/register`, {
         username: username,
         email: email,
@@ -51,7 +38,7 @@ const register = async (username, email, password) => {
 
 const checkAuth = async () => {
     const response = await AUTH_API.post(`${AUTH_ENDPOINT}/checkAuth`);
-    return response.data.isAuth;
+    return response.data;
 };
 
 const checkAuthUserRole = async () => {

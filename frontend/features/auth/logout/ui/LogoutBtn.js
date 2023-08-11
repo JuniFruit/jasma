@@ -3,23 +3,21 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { handleLogout } from "../model/logoutActions.js";
 import { useToast } from "@/shared/model/index.js";
+import { useAuthStore } from "@/entities/auth/index.js";
+import { handleError } from "@/shared/utils/handleError.js";
 
 export function LogInOutBtn(props) {
     const router = useRouter();
-
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { user: isLoggedIn } = useAuthStore();
     const { notifyToast } = useToast();
 
-    useEffect(() => {
-        setIsLoggedIn(window.localStorage.getItem("loggedInUserID") ? true : false);
-    }, [isLoggedIn]);
+    const { mutate, isSuccess, isError, error } = handleLogout();
+
+    if (isSuccess) notifyToast("You have successfully logged out.");
+    if (isError) notifyToast(handleError(error).message, true);
 
     const logoutUser = async (e) => {
-        const res = await handleLogout();
-
-        if (res.error) return notifyToast(res.message, true);
-
-        setIsLoggedIn(false);
+        mutate();
 
         //Force reload the page if on dashboard
         if (window.location.pathname === "/dashboard") {

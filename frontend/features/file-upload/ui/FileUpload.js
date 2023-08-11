@@ -1,4 +1,4 @@
-import { FileInput } from "@/entities/file-upload";
+import { FileInput, FilePreview } from "@/entities/file-upload";
 import { FileDeleteBtn } from "./FileDeleteBtn";
 
 export function FileUploader({ file, setFile, accept }) {

@@ -1,6 +1,6 @@
-import { useRef } from "react";
-import { useToast } from "react-toastify";
+import { useEffect, useRef } from "react";
 import { checkFileTooLarge } from "../utils/file.utils";
+import { useToast } from "@/shared/model";
 
 export const FileInput = ({ file, setFile, accept }) => {
     const inputRef = useRef(null);

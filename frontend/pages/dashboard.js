@@ -1,3 +1,4 @@
+import { useAuthStore } from "@/entities/auth";
 import { CreatePost } from "@/features/post";
 import { MobileDetectSSR } from "@/shared/model";
 import SubscribeHashtags from "@/widgets/hashtags";
@@ -8,19 +9,13 @@ import React, { useEffect, useState } from "react";
 export default function Dashboard(props) {
     console.log("Dashboard props", props);
 
-    const [userID, setuserID] = useState();
-    const [isLoggedIn, setIsLoggedIn] = useState();
-
-    useEffect(() => {
-        setuserID(window.localStorage.getItem("loggedInUserID"));
-        setIsLoggedIn(userID ? true : false);
-    }, [isLoggedIn]);
+    const { user } = useAuthStore();
 
     return (
         <div className="flex flex-col justify-center mx-auto">
             <UserWidgets.UserBox />
 
-            {isLoggedIn ? (
+            {user ? (
                 <React.Fragment>
                     <CreatePost />
                     <SubscribeHashtags />

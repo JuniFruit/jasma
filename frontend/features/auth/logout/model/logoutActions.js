@@ -1,19 +1,9 @@
-import { logout } from "@/entities/auth";
-import { handleError } from "@/shared/utils";
+import { logout, useAuthStore } from "@/entities/auth";
+import { useMutation } from "react-query";
 
-const handleLogout = async () => {
-    try {
-        const res = await logout();
-        //Remove userID and username from localStorage
-
-        window.localStorage.setItem("loggedInUserID", "");
-        window.localStorage.setItem("loggedInUsername", "");
-        window.localStorage.removeItem("loggedInUserID");
-        window.localStorage.removeItem("loggedInUsername");
-        return res;
-    } catch (error) {
-        return handleError(error);
-    }
+const handleLogout = () => {
+    const { clearUser } = useAuthStore();
+    return useMutation(logout, { onSuccess: () => clearUser() });
 };
 
 export { handleLogout };

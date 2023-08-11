@@ -2,16 +2,20 @@ import { useToast } from "@/shared/model";
 import Link from "next/link";
 import { useState } from "react";
 import { handleSignup } from "../model/signupActions";
+import { handleError } from "@/shared/utils";
+import { useRouter } from "next/router";
 
 export function SignUpForm() {
     const { notifyToast } = useToast();
-
+    const router = useRouter();
     //Values of all the input boxes
     const [registrationState, setRegistrationState] = useState({
         userNameInput: "",
         emailInput: "",
         passwordInput: ""
     });
+
+    const { mutate, isError, isSuccess, isLoading, error } = handleSignup();
 
     const handleChange = (e) => {
         const value = e.target.value;
@@ -21,20 +25,20 @@ export function SignUpForm() {
         });
     };
 
+    if (isError) notifyToast(handleError(error).message, true);
+    if (isSuccess) {
+        notifyToast("Account created!");
+        return router.push("/login");
+    }
+
     //Registration action (OnSubmit form)
     const signup = async (e) => {
         e.preventDefault();
-        const res = await handleSignup(
-            registrationState.userNameInput,
-            registrationState.emailInput,
-            registrationState.passwordInput
-        );
-        if (!res.error) {
-            console.log(res.message);
-            notifyToast("Account created!");
-        } else {
-            notifyToast(res.message, true);
-        }
+        mutate({
+            username: registrationState.userNameInput,
+            email: registrationState.emailInput,
+            password: registrationState.passwordInput
+        });
     };
 
     return (
@@ -118,7 +122,7 @@ export function SignUpForm() {
                         id="signUpBtn"
                         className="formButtonDefault"
                         type="submit"
-                        value="Sign up"
+                        value={isLoading ? "Sending..." : "Sign Up"}
                     />
                     <p className="pt-4 text-xs">
                         By clicking Sign Up, you agree to our{" "}

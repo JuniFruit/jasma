@@ -2,6 +2,7 @@ import { FileUploader } from "@/features/file-upload";
 import { ProfilePic } from "../profile-picture/ProfilePic";
 import { handleUploadUserPic } from "@/features/user/model/userActions";
 import { useToast } from "@/shared/model";
+import { useState } from "react";
 
 export function UploadProfilePic(props) {
     const { userID } = props;

@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED=false && next dev",
+        "dev": "SET RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED=false && next dev",
         "build": "next build",
         "start": "next start",
         "lint": "next lint"
@@ -19,6 +19,7 @@
         "compression-webpack-plugin": "^10.0.0",
         "date-fns": "^2.29.3",
         "hls.js": "^1.4.5",
+        "immer": "^10.0.2",
         "ioredis": "^5.2.4",
         "js-cookie": "^3.0.1",
         "next": "13.4.3",
@@ -30,7 +31,8 @@
         "react-toastify": "^9.1.1",
         "recoil": "^0.7.6",
         "sharp": "^0.31.3",
-        "styled-components": "^5.3.6"
+        "styled-components": "^5.3.6",
+        "zustand": "^4.4.1"
     },
     "devDependencies": {
         "autoprefixer": "^10.4.14",

@@ -14,6 +14,12 @@ export function FooterMain() {
                 </Link>
                 <Link
                     className="hover:text-sky-500 mr-2"
+                    href="/stream-page"
+                >
+                    Jasma Live
+                </Link>
+                <Link
+                    className="hover:text-sky-500 mr-2"
                     href="/legal/privacy-policy"
                 >
                     Privacy Policy

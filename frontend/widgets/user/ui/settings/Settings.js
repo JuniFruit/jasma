@@ -1,22 +1,17 @@
+import { useAuthStore } from "@/entities/auth";
 import { ChangePasswordForm } from "@/features/auth/password";
-import { useEffect, useState } from "react";
 import { UploadProfilePic } from "../upload-profile-pic/UploadProfilePic";
 
 //import FileUploader from "../../file-upload/FileUploader";
 
 //The Settings profile
 export function Settings(props) {
-    const [userID, setUserID] = useState(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        setUserID(window.localStorage.getItem("loggedInUserID"));
-    }, []);
+    const { user } = useAuthStore();
 
     return (
         <>
             <h1 className="text-2xl text-center">Settings</h1>
-            <UploadProfilePic userID={userID} />
+            <UploadProfilePic userID={user?.id} />
             <ChangePasswordForm />
         </>
     );

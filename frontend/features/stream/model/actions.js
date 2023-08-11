@@ -1,14 +1,7 @@
 import { getCategories, getLiveSearchResults, getLiveStreams } from "@/entities/stream";
 import { useQuery } from "react-query";
-
+import { DEFAULTS } from "@/shared/api/queryConfigs";
 import { handleError } from "@/shared/utils/handleError";
-
-const DEFAULTS = {
-    refetchOnWindowFocus: false,
-    refetchOnmount: false,
-    refetchOnReconnect: false,
-    staleTime: 5 * 60 * 1000
-};
 
 export const handleGenerateStreamKey = async (userID) => {
     try {

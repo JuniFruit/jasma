@@ -1,4 +1,4 @@
-import { MobileProvider } from "@/shared/model";
+import { AuthProvider, MobileProvider } from "@/shared/model";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -22,11 +22,13 @@ function MyApp({ Component, pageProps }) {
             <QueryClientProvider client={queryClient}>
                 <MobileProvider pageProps={pageProps}>
                     <ToastContainer />
-                    <PayPalScriptProvider options={{ "client-id": paypalClientID }}>
-                        <Layout>
-                            <Component {...pageProps} />
-                        </Layout>
-                    </PayPalScriptProvider>
+                    <AuthProvider>
+                        <PayPalScriptProvider options={{ "client-id": paypalClientID }}>
+                            <Layout>
+                                <Component {...pageProps} />
+                            </Layout>
+                        </PayPalScriptProvider>
+                    </AuthProvider>
                     <ReactQueryDevtools initialIsOpen={false} />
                 </MobileProvider>
             </QueryClientProvider>

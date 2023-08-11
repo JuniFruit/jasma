@@ -7,7 +7,7 @@ import { FileUploader } from "@/features/file-upload";
 export const CreatePost = () => {
     const { notifyToast } = useToast();
 
-    const [postData, setPostData] = useState(initialPostData);
+    const [postData, setPostData] = useState({});
     const [file, setFile] = useState(null);
 
     const [textInput, setTextInput] = useState("");

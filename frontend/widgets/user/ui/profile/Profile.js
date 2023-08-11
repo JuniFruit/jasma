@@ -5,9 +5,11 @@ import FollowList from "@/widgets/follow-list";
 import UserLists from "@/widgets/user-list";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useAuthStore } from "@/entities/auth";
 
 export const Profile = ({ username }) => {
-    const [loggedInUserID, setLoggedInUserID] = useState(null);
+    const { user: loggedInUserID } = useAuthStore();
+
     const [followerModalState, setFollowerModalState] = useState(false);
     const openFollowerModal = () => {
         setFollowerModalState(true);
@@ -15,10 +17,6 @@ export const Profile = ({ username }) => {
     const closeFollowerModal = () => {
         setFollowerModalState(false);
     };
-
-    useEffect(() => {
-        setLoggedInUserID(window.localStorage.getItem("loggedInUserID"));
-    }, []);
 
     const { status, isLoading, isError, data, error, refetch } = useGetUserID(username);
 

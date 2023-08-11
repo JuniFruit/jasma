@@ -1,5 +1,6 @@
 import { handleError } from "@/shared/utils";
 import { register } from "@/entities/auth";
+import { useMutation } from "react-query";
 
 /**
  *
@@ -7,13 +8,6 @@ import { register } from "@/entities/auth";
  * @param {String} email
  * @param {String} password
  */
-const handleSignup = async (username, email, password) => {
-    try {
-        const res = await register(username, email, password);
-        return res;
-    } catch (error) {
-        return handleError(error);
-    }
-};
+const handleSignup = () => useMutation(register);
 
 export { handleSignup };

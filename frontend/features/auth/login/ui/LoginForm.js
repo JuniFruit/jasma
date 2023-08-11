@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { handleLogin } from "../model/loginActions.js";
+import { handleError } from "@/shared/utils/";
 
 export function LoginForm() {
     const router = useRouter();
@@ -10,25 +11,17 @@ export function LoginForm() {
         emailInput: "",
         passwordInput: ""
     });
+    const { mutate, isError, isLoading, error, isSuccess } = handleLogin();
 
-    const [message, setMessage] = useState();
+    if (isSuccess) router.push("/dashboard");
+
+    const errorObj = isError ? handleError(error) : {};
 
     //Login authorization code
     async function handleSubmit(e) {
         e.preventDefault();
         const { emailInput, passwordInput } = loginFormState;
-        const response = await handleLogin(emailInput, passwordInput);
-
-        //Move user to dashboard upon succesfull login
-        if (!response.error) {
-            //Store the userID and username of the logged in user into the session storage.
-
-            setMessage(null);
-            router.push("/dashboard");
-            //Failed login. Show error message.
-        } else {
-            setMessage(response.message);
-        }
+        mutate({ email: emailInput, password: passwordInput });
     }
 
     const handleChange = (e) => {
@@ -92,7 +85,7 @@ export function LoginForm() {
                     />
                 </div>
 
-                {message ? <p className="mb-2 text-red-500">{message}</p> : null}
+                {errorObj.errors ? <p className="mb-2 text-red-500">{errorObj.errors[0].message}</p> : null}
 
                 <div className="flex flex-col items-center justify-between">
                     <button
@@ -101,7 +94,7 @@ export function LoginForm() {
                         type="submit"
                         value="Log in"
                     >
-                        Log In
+                        {isLoading ? "Sending..." : "Log in"}
                     </button>
                 </div>
 
