@@ -64,16 +64,20 @@ class LogoutView(CreateAPIView):
         payload = {"message": "Logged out."}
         return Response(payload)
 
-@api_view(["GET"])
+@api_view(["POST"])
 @permission_classes([AllowAny])
 def check_auth(request):
     has_user = request.user.is_authenticated
     has_session = bool(request.session.session_key)
     user = request.user
+
+    # Send basic user info to impore UX on frontend
     payload = {
         "data": {
             "isAuth": has_user and has_session,
-            "role": user.user_role if hasattr(user, "user_role") else "guest"
+            "user": {"role": user.user_role if hasattr(user, "user_role") else "guest",
+                     "username": user.username,
+                     "id": user.id}
         }
     }
     return Response(payload)
