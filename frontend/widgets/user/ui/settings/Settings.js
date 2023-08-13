@@ -1,6 +1,8 @@
 import { useAuthStore } from "@/entities/auth";
 import { ChangePasswordForm } from "@/features/auth/password";
 import { UploadProfilePic } from "../upload-profile-pic/UploadProfilePic";
+import Link from "next/link";
+import { StreamActionBtn } from "@/entities/stream";
 
 //import FileUploader from "../../file-upload/FileUploader";
 
@@ -13,6 +15,9 @@ export function Settings(props) {
             <h1 className="text-2xl text-center">Settings</h1>
             <UploadProfilePic userID={user?.id} />
             <ChangePasswordForm />
+            <Link href={"/stream-page/settings"}>
+                <StreamActionBtn>Streamer Settings</StreamActionBtn>
+            </Link>
         </>
     );
 }

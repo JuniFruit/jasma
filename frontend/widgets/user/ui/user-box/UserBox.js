@@ -13,7 +13,7 @@ export function UserBox(props) {
             <div className="flex flex-col items-end justify-end mr-4">
                 {user ? (
                     <React.Fragment>
-                        <Link href={`/user/${window.localStorage.getItem("loggedInUsername")}`}>
+                        <Link href={`/user/${user.username}`}>
                             <ProfilePic
                                 userID={user?.id}
                                 width={75}

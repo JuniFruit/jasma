@@ -4,11 +4,9 @@ import { MobileDetectSSR } from "@/shared/model";
 import SubscribeHashtags from "@/widgets/hashtags";
 import NewsFeed from "@/widgets/news-feed";
 import UserWidgets from "@/widgets/user";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 export default function Dashboard(props) {
-    console.log("Dashboard props", props);
-
     const { user } = useAuthStore();
 
     return (

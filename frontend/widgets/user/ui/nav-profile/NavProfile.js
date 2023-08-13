@@ -3,25 +3,17 @@ import { useRecoilState } from "recoil";
 import Link from "next/link";
 
 import { DropDownBtn } from "@/shared/ui";
-import { handleGetUser } from "@/features/user";
+import { handleGetFullUserInfo, handleGetUser } from "@/features/user";
 import { LogInOutBtn } from "@/features/auth/logout";
 import { userState } from "@/entities/theme";
 import { ProfilePic } from "../profile-picture/ProfilePic";
+import { useAuthStore } from "@/entities/auth";
 
 export const NavProfile = () => {
-    const [user, setUser] = useRecoilState(userState);
+    const { user } = useAuthStore();
 
-    useEffect(() => {
-        (async () => {
-            const data = await handleGetUser();
-            if (!data.error) {
-                setUser(data.user);
-            } else {
-                setUser(null);
-            }
-        })();
-    }, []);
-
+    const { data, isSuccess } = handleGetFullUserInfo(user.id);
+    console.log(data);
     return (
         <div>
             <DropDownBtn
@@ -31,7 +23,7 @@ export const NavProfile = () => {
                 replacementIcon={
                     <React.Fragment>
                         <ProfilePic
-                            userID={user ? user.user_id : null}
+                            userID={user ? user.id : null}
                             width="30"
                             height="30"
                         />
@@ -44,10 +36,17 @@ export const NavProfile = () => {
                         <Link href="/user/settings">
                             <button className="formButtonDefault m-2">Settings</button>
                         </Link>
+                        <LogInOutBtn initialState={user ? true : false} />
+                        {isSuccess && !data.data.streamerprofile ? (
+                            <Link
+                                href={"/stream-page/settings"}
+                                className="formButtonDefault m-2"
+                            >
+                                Become a streamer
+                            </Link>
+                        ) : null}
                     </React.Fragment>
                 ) : null}
-
-                <LogInOutBtn initialState={user ? true : false} />
             </DropDownBtn>
         </div>
     );

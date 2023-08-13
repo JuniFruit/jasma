@@ -7,10 +7,11 @@ import {
     getFollowing,
     getProfilePic,
     getUserID,
-    getUserIDsByRole,
+    getUserInfoById,
     removeFollower,
     uploadProfilePic
 } from "@/entities/user";
+import { DEFAULTS } from "@/shared/api/queryConfigs";
 import { createMultipartData, handleError } from "@/shared/utils";
 import { useQuery } from "react-query";
 
@@ -21,11 +22,21 @@ const useGetUserPicture = (userID) => {
             return await getProfilePic(userID);
         },
         {
-            enabled: true,
-            refetchOnWindowFocus: false,
-            onError: handleError
+            ...DEFAULTS
         }
     );
+};
+
+/**
+ * Get full user profile info
+ * @param {String} id
+ * @returns
+ */
+
+const handleGetFullUserInfo = (id) => {
+    return useQuery(["user_info"], async () => await getUserInfoById(id), {
+        ...DEFAULTS
+    });
 };
 
 const handleGetUser = async () => {
@@ -96,9 +107,7 @@ const useGetFollowers = (userID) =>
             return await getFollowers(userID);
         },
         {
-            enabled: true,
-            refetchOnWindowFocus: false,
-            onError: handleError
+            ...DEFAULTS
         }
     );
 
@@ -115,9 +124,7 @@ const useGetFollowing = (userID) =>
             return await getFollowing(userID);
         },
         {
-            enabled: true,
-            refetchOnWindowFocus: false,
-            onError: handleError
+            ...DEFAULTS
         }
     );
 
@@ -149,10 +156,7 @@ const useGetUserIDsByRole = (roleFilter) =>
             return await api.getUserIDsByRole(roleFilter);
         },
         {
-            enabled: true,
-            refetchOnWindowFocus: false,
-            onError: handleError
-            //onSuccess: (result) => {setReports(result.reports)} //Load the response data into state upon succesful fetch
+            ...DEFAULTS
         }
     );
 
@@ -185,9 +189,7 @@ const useGetUserID = (username) =>
             return await getUserID(username);
         },
         {
-            enabled: true,
-            refetchOnWindowFocus: false,
-            onError: handleError
+            ...DEFAULTS
         }
     );
 
@@ -204,23 +206,22 @@ const useGetUserInfo = (userID) =>
             return await api.getUserInfo(userID);
         },
         {
-            enabled: true,
-            refetchOnWindowFocus: false,
-            onError: handleError
+            ...DEFAULTS
         }
     );
 
 export {
-    useGetUserPicture,
-    handleGetUser,
-    handleUnfollow,
-    handleSetFollow,
-    handleUploadUserPic,
+    handleChangeUserRole,
     handleCheckIsFollowing,
+    handleGetFullUserInfo,
+    handleGetUser,
+    handleSetFollow,
+    handleUnfollow,
+    handleUploadUserPic,
     useGetFollowers,
     useGetFollowing,
     useGetUserID,
-    handleChangeUserRole,
     useGetUserIDsByRole,
-    useGetUserInfo
+    useGetUserInfo,
+    useGetUserPicture
 };

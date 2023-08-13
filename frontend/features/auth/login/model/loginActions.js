@@ -1,14 +1,10 @@
-import { checkAuth, login, useAuthStore } from "@/entities/auth";
+import { checkAuth, login } from "@/entities/auth";
 import { DEFAULTS } from "@/shared/api/queryConfigs";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 const handleLogin = () => {
-    const store = useAuthStore();
-
     return useMutation(login, {
-        onSuccess: (user) => {
-            store.setUser(user);
-        }
+        ...DEFAULTS
     });
 };
 
@@ -18,4 +14,4 @@ const handleCheckAuth = () => {
     });
 };
 
-export { handleLogin, handleCheckAuth };
+export { handleCheckAuth, handleLogin };

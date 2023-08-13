@@ -1,19 +1,26 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { handleLogin } from "../model/loginActions.js";
 import { handleError } from "@/shared/utils/";
+import { useAuthStore } from "@/entities/auth/index.js";
 
 export function LoginForm() {
     const router = useRouter();
+    const store = useAuthStore();
     // Values of the email and password input boxes
     const [loginFormState, setLoginFormState] = useState({
         emailInput: "",
         passwordInput: ""
     });
-    const { mutate, isError, isLoading, error, isSuccess } = handleLogin();
+    const { mutate, data, isError, isLoading, error, isSuccess } = handleLogin();
 
-    if (isSuccess) router.push("/dashboard");
+    useEffect(() => {
+        if (isSuccess) {
+            store.setUser(data.user);
+            router.replace("/dashboard");
+        }
+    }, [isSuccess]);
 
     const errorObj = isError ? handleError(error) : {};
 
@@ -85,7 +92,11 @@ export function LoginForm() {
                     />
                 </div>
 
-                {errorObj.errors ? <p className="mb-2 text-red-500">{errorObj.errors[0].message}</p> : null}
+                {errorObj.errors ? (
+                    <p className="mb-2 text-red-500">{errorObj.errors[0].message}</p>
+                ) : errorObj.message ? (
+                    errorObj.message
+                ) : null}
 
                 <div className="flex flex-col items-center justify-between">
                     <button

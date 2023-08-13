@@ -20,6 +20,11 @@ const getClientUser = async () => {
     return response.data;
 };
 
+const getUserInfoById = async (id) => {
+    const res = await USER_API.get(`${USER_ENDPOINT}/${id}`);
+    return res.data;
+};
+
 /**
  *
  * @param {FormData} multipartData formed data object
@@ -152,5 +157,6 @@ export {
     changeUserRole,
     getUserInfo,
     getUserIDsByRole,
-    getUserID
+    getUserID,
+    getUserInfoById
 };

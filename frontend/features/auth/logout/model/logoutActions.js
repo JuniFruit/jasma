@@ -1,9 +1,8 @@
-import { logout, useAuthStore } from "@/entities/auth";
+import { logout } from "@/entities/auth";
 import { useMutation } from "react-query";
 
 const handleLogout = () => {
-    const { clearUser } = useAuthStore();
-    return useMutation(logout, { onSuccess: () => clearUser() });
+    return useMutation(logout);
 };
 
 export { handleLogout };

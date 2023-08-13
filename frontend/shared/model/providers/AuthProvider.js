@@ -1,25 +1,24 @@
 import { useAuthStore } from "@/entities/auth";
 import { handleCheckAuth } from "@/features/auth/login";
-import { useToast } from "../hooks/useToast";
+import { handleError } from "@/shared/utils";
 import { useEffect } from "react";
-import { useRouter } from "next/router";
+import { useToast } from "../hooks/useToast";
 
 export const AuthProvider = ({ children }) => {
     const store = useAuthStore();
     const { notifyToast } = useToast();
-    const { isSuccess, data } = handleCheckAuth();
-    const router = useRouter();
+    const { isSuccess, data, isError, error } = handleCheckAuth();
     useEffect(() => {
+        store.setError(isError, handleError(error).message);
         if (isSuccess) {
             if (data.data.isAuth) {
                 store.setUser(data.data.user);
+
                 notifyToast(`Welcome back ${data.data.user.username}`);
-                router.push("/dashboard");
             } else {
                 store.clearUser();
             }
+            store.setLoading(false);
         }
-    }, [isSuccess]);
-
-    return <>{children}</>;
+    }, [isSuccess, isError]);
 };

@@ -4,7 +4,8 @@ export {
     useGetFollowing,
     useGetFollowers,
     useGetUserInfo,
-    useGetUserID
+    useGetUserID,
+    handleGetFullUserInfo
 } from "./model/userActions";
 
 export { ToggleFollowBtn } from "./ui/ToggleFollowBtn";

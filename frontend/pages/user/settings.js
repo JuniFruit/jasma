@@ -1,10 +1,11 @@
-import { MobileDetectSSR, useRequireAuth } from "@/shared/model";
+import { useCheckAuthClientSide } from "@/features/auth/admin";
+import { MobileDetectSSR } from "@/shared/model";
 import UserWidgets from "@/widgets/user";
 
 //The Settings profile
 export default function Settings(props) {
-    //Redirect user to the dashboard if they are not logged in.
-    useRequireAuth("/dashboard");
+    //Redirect user to the login page if they are not logged in.
+    useCheckAuthClientSide("/login");
 
     return (
         <div className="flex flex-col items-center">

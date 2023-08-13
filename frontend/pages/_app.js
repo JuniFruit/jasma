@@ -22,13 +22,12 @@ function MyApp({ Component, pageProps }) {
             <QueryClientProvider client={queryClient}>
                 <MobileProvider pageProps={pageProps}>
                     <ToastContainer />
-                    <AuthProvider>
-                        <PayPalScriptProvider options={{ "client-id": paypalClientID }}>
-                            <Layout>
-                                <Component {...pageProps} />
-                            </Layout>
-                        </PayPalScriptProvider>
-                    </AuthProvider>
+                    <AuthProvider />
+                    <PayPalScriptProvider options={{ "client-id": paypalClientID }}>
+                        <Layout>
+                            <Component {...pageProps} />
+                        </Layout>
+                    </PayPalScriptProvider>
                     <ReactQueryDevtools initialIsOpen={false} />
                 </MobileProvider>
             </QueryClientProvider>

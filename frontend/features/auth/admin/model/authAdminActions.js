@@ -1,4 +1,4 @@
-import { checkAuth, checkAuthUserRole } from "@/entities/auth";
+import { checkAuth, checkAuthUserRole, useAuthStore } from "@/entities/auth";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { handleError } from "@/shared/utils";
@@ -6,28 +6,20 @@ import { handleError } from "@/shared/utils";
 /**
  *
  * @param {String} redirectPath relative path if user is NOT authorized. Example: "/cms/cms-login". Default is home page: '/'
- * @param {String} successRedirectPath relative path if user is authorized. Example: "/cms/cms-login"
+ * @param {String} successRedirectPath relative path if user is authorized. Example: "/cms/cms-login". Empty string to stay on the page. Default is ""
+ * @param {String} requiredRole required role to pass. Default is "normal"
  */
 
-const useCheckAuthClientSide = async (redirectPath = "/", successRedirectPath) => {
+const useCheckAuthClientSide = (redirectPath = "/", successRedirectPath = "", requiredRole = "normal") => {
     const router = useRouter();
+    const { user } = useAuthStore();
     useEffect(() => {
-        const callApi = async () => {
-            try {
-                const isLoggedIn = await checkAuth();
-                if (
-                    isLoggedIn === true &&
-                    window.localStorage.getItem("loggedInUserID") &&
-                    successRedirectPath !== undefined
-                ) {
-                    router.replace(successRedirectPath);
-                }
-            } catch (error) {
-                router.replace(redirectPath);
-            }
-        };
-        callApi();
-    }, []);
+        if (user && user.user_role === requiredRole) {
+            router.replace(successRedirectPath);
+        } else {
+            router.replace(redirectPath);
+        }
+    }, [user]);
 };
 
 const handleCheckAuthUserRole = async () => {
