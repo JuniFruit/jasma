@@ -12,8 +12,7 @@ import { useAuthStore } from "@/entities/auth";
 export const NavProfile = () => {
     const { user } = useAuthStore();
 
-    const { data, isSuccess } = handleGetFullUserInfo(user.id);
-    console.log(data);
+    const { data, isSuccess } = handleGetFullUserInfo(user?.id);
     return (
         <div>
             <DropDownBtn

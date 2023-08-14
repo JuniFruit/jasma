@@ -1,18 +1,24 @@
-import { getCategories, getLiveSearchResults, getLiveStreams } from "@/entities/stream";
-import { useQuery } from "react-query";
+import {
+    generateStreamKey,
+    getCategories,
+    getLiveSearchResults,
+    getLiveStreams,
+    getStreamerProfile
+} from "@/entities/stream";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { DEFAULTS } from "@/shared/api/queryConfigs";
 import { handleError } from "@/shared/utils/handleError";
 
-export const handleGenerateStreamKey = async (userID) => {
-    try {
-        const req = new Promise((res, rej) => {
-            res(`test${Math.random() * 1000}`);
-        });
+export const handleGenerateStreamKey = (userId) => {
+    const queryClient = useQueryClient();
 
-        return await req;
-    } catch (error) {
-        return handleError(error);
-    }
+    return useMutation(generateStreamKey, {
+        onSuccess: (data) => {
+            queryClient.setQueryData(["streamer", userId], (oldData) =>
+                oldData ? { ...oldData, stream_key: data } : oldData
+            );
+        }
+    });
 };
 
 /**
@@ -48,4 +54,15 @@ export const handleStreamSearch = (searchTerm) => {
 
 export const handleGetCategories = () => {
     return useQuery("live_categories", getCategories, { enabled: true, onError: handleError, ...DEFAULTS });
+};
+
+/**
+ *
+ * @param {String} userId
+ */
+
+export const handleGetStreamerProfile = (userId) => {
+    return useQuery(["streamer", userId], async () => await getStreamerProfile(userId), {
+        ...DEFAULTS
+    });
 };

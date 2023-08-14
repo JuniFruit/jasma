@@ -1,5 +1,5 @@
 import React from "react";
-import "../../LivePage.css";
+import styles from "../../LivePage.module.scss";
 import { MobileDetectSSR } from "@/shared/model";
 import { useRouter } from "next/router";
 import StreamListWidgets from "@/widgets/stream-list";
@@ -8,8 +8,8 @@ import StreamSearchWidgets from "@/widgets/stream-search";
 const CategorySearchResults = () => {
     const router = useRouter();
     return (
-        <div className="stream-list-page-lg">
-            <div className="stream-list-content">
+        <div className={styles.stream_page_lge}>
+            <div className={styles.stream_content}>
                 <StreamSearchWidgets.StreamSearch />
                 <StreamListWidgets.LiveList category={router.query.category} />
             </div>

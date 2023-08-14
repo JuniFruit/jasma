@@ -13,18 +13,19 @@ from api.utils.handle_file_save import handle_file_save
 from api.utils.handle_file_delete import handle_file_delete
 from api.utils.staff_auth_wrappers import admin_required
 
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 
 from api.constants import user_roles
 from api.models import User, UserProfile, UserNotificationPreferences
-from api.serializers import UserCustomSerializer
+from api.serializers import UserCustomSerializer, UserFullSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserCustomSerializer
+    serializer_class = UserFullSerializer
     # NOTE: Need to rework on permissions
     permission_classes = [IsAuthenticated]
     http_method_names = ["get", "patch", ]
@@ -420,3 +421,5 @@ def upload_profile_pic(request):
                             status=HTTP_STATUS["Created"])
     return JsonResponse({"success": False, "message": "Given file not correct."},
                         status=HTTP_STATUS["Bad Request"])
+
+

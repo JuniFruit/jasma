@@ -1,7 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
 from django.middleware.csrf import get_token
-from requests import patch
-
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.decorators import api_view, permission_classes
@@ -11,7 +9,7 @@ from rest_framework.exceptions import PermissionDenied
 
 from api.models import User, UserLoginHistory
 from api.utils.get_client_ip import get_client_ip
-from api.serializers import UserAuthenticationSerializer
+from api.serializers import UserAuthenticationSerializer, UserCustomSerializer
 
 
 @api_view(["POST"])
@@ -21,7 +19,8 @@ def register(request):
     serializer = UserAuthenticationSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     user = User.objects.create_user(**serializer.validated_data)
-    print(serializer.validated_data)
+
+
     # Return success response
     payload = {"message": f"User {user.username} registered successfully."}
     return Response(payload, status=status.HTTP_201_CREATED)
@@ -42,10 +41,10 @@ def login_view(request):
         user.login_history.create(login_ipv4=ip_address)
         user.save()
         # Add user data to the user session
-        user_info = UserAuthenticationSerializer(user)
+        user_info = UserCustomSerializer(user)
         request.session.update({"user": user_info.data})
         payload = {
-            "data": {**user_info.data},
+            "data": {'user': user_info.data},
             "message": "User logged in."
         }
 
@@ -71,16 +70,25 @@ def check_auth(request):
     has_session = bool(request.session.session_key)
     user = request.user
 
-    # Send basic user info to impore UX on frontend
-    payload = {
-        "data": {
-            "isAuth": has_user and has_session,
-            "user": {"role": user.user_role if hasattr(user, "user_role") else "guest",
-                     "username": user.username,
-                     "id": user.id}
+    if user: 
+        # Send user info to impore UX on frontend
+        user_info = UserCustomSerializer(user)
+        payload = {
+            'data': 
+            {'isAuth': has_session and has_user,
+            "user": user_info.data
+            }
         }
-    }
-    return Response(payload)
+    else:
+        payload = {
+            'data': {
+                'isAuth': False,
+                "user": None
+            }
+        }
+
+    
+    return Response(payload, status=status.HTTP_200_OK)
 
 
 class ChangePasswordView(UpdateAPIView):

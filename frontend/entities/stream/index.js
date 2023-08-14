@@ -6,4 +6,6 @@ export { SearchInput, ResultList } from "./ui/search-block/SearchBlock";
 export { CategoryCard } from "./ui/recommended-category-card/CategoryCard";
 export { ChannelCard } from "./ui/channel-card/ChannelCard";
 export { StreamCard } from "./ui/stream-card/StreamCard";
+export { SettingsWrapper } from "./ui/wrappers/SettingsWrapper";
 export * from "./ui/misc/Misc";
+export * from "./ui/inputs/Inputs";

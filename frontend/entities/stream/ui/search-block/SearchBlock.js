@@ -2,7 +2,7 @@ import { InputField } from "@/shared/ui";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./SearchBlock.css";
-import { StreamActionBtn } from "../misc/Misc";
+import { StreamActionBtn } from "../inputs/Inputs";
 
 export const SearchInput = ({ isResultsOpen, onChange, onSubmit, onClick, forwardedRef, searchTerm }) => {
     const handleKeyDown = (e) => {

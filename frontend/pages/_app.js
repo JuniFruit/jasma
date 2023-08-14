@@ -5,9 +5,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { RecoilRoot } from "recoil";
 import Layout from "../app/layouts/BaseLayout";
-import "../shared/styles/globals.css";
+import "../shared/styles/global.scss";
 
 function MyApp({ Component, pageProps }) {
     const [queryClient] = React.useState(() => new QueryClient());
@@ -18,20 +17,18 @@ function MyApp({ Component, pageProps }) {
             : process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID_SANDBOX;
 
     return (
-        <RecoilRoot>
-            <QueryClientProvider client={queryClient}>
-                <MobileProvider pageProps={pageProps}>
-                    <ToastContainer />
-                    <AuthProvider />
-                    <PayPalScriptProvider options={{ "client-id": paypalClientID }}>
-                        <Layout>
-                            <Component {...pageProps} />
-                        </Layout>
-                    </PayPalScriptProvider>
-                    <ReactQueryDevtools initialIsOpen={false} />
-                </MobileProvider>
-            </QueryClientProvider>
-        </RecoilRoot>
+        <QueryClientProvider client={queryClient}>
+            <MobileProvider pageProps={pageProps}>
+                <ToastContainer />
+                <AuthProvider />
+                <PayPalScriptProvider options={{ "client-id": paypalClientID }}>
+                    <Layout>
+                        <Component {...pageProps} />
+                    </Layout>
+                </PayPalScriptProvider>
+                <ReactQueryDevtools initialIsOpen={false} />
+            </MobileProvider>
+        </QueryClientProvider>
     );
 }
 

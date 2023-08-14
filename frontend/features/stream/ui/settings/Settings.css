@@ -6,15 +6,15 @@
 }
 
 .stream-key-field-wrapper {
-    @apply flex gap-1 items-center w-full;
+    @apply flex gap-3 items-center w-full;
 }
 
 .stream-key-field-wrapper input {
     @apply w-full;
 }
 
-.key-show-btn {
-    @apply cursor-pointer;
+.stream-key-field button {
+    @apply text-white;
 }
 
 .stream-key-description {
@@ -22,7 +22,7 @@
 }
 
 .stream-key-description p {
-    @apply text-sm;
+    @apply text-sm text-white;
 }
 
 @media (hover: hover) {

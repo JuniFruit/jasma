@@ -6,5 +6,6 @@ urlpatterns = [
     path('unfollowUser/<str:user_id_two>/', unfollow_user),
     path('getFollowing/<str:user_id>', get_following),
     path('getFollowers/<str:user_id>', get_followers),
-    path('checkIsFollowing/', check_is_following)
+    path('checkIsFollowing/', check_is_following),
+
 ]

@@ -1,0 +1,12 @@
+.stream_settings_widget {
+    @apply w-full h-full px-2 py-4 flex flex-col gap-10;
+
+    > h2 {
+        @apply text-2xl font-bold mb-3 text-center text-white;
+        letter-spacing: 0.05rem;
+    }
+}
+
+.separator {
+    @apply border-2 border-gray-300 opacity-50;
+}

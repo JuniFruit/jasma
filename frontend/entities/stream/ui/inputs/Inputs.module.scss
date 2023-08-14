@@ -1,0 +1,64 @@
+.core_text_input {
+    @apply flex h-8 items-center gap-2 overflow-hidden rounded-sm 
+    bg-stream-dark-bg-800 py-0.5 px-2 transition-all duration-200 shadow-lg w-full;
+    > input {
+        @apply bg-transparent p-1 w-full text-white placeholder:text-stream-accent placeholder:opacity-60;
+    }
+    border: 2px solid transparent;
+
+    &::focus-visible {
+        @apply shadow-xl border-stream-accent;
+    }
+
+    @media (hover: hover) {
+        &:hover {
+            @apply shadow-xl border-stream-accent;
+        }
+    }
+}
+
+.stream_action_btn {
+    @apply flex items-center gap-1 text-sm font-semibold transition-colors;
+
+    &::focus-visible {
+        @apply text-stream-accent;
+    }
+    @media (hover: hover) {
+        &:hover {
+            @apply text-stream-accent;
+        }
+    }
+}
+
+.stream_core_btn {
+    @apply gap-1 text-sm font-bold text-white whitespace-nowrap relative
+    transition-shadow rounded-md px-3 py-1.5 bg-stream-accent select-none;
+    box-shadow: 0px 0px 8px var(--stream-accent);
+
+    &::focus-visible {
+        box-shadow: 0px 0px 12px var(--stream-accent);
+    }
+    @media (hover: hover) {
+        &:hover {
+            box-shadow: 0px 0px 12px var(--stream-accent);
+        }
+    }
+
+    &:disabled {
+        @apply opacity-60 pointer-events-none;
+    }
+
+    .loading {
+        @apply w-full h-full;
+        > div {
+            @apply w-6 h-6;
+        }
+    }
+    > * {
+        @apply relative;
+    }
+}
+
+.btn_error_animation {
+    @apply animate-errorBtn;
+}

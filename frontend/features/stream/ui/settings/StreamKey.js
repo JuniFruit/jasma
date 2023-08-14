@@ -1,75 +1,76 @@
-import { CoreBtnDef, InputField } from "@/shared/ui";
-import { handleGenerateStreamKey } from "../../model/actions";
-import { useState } from "react";
-import "./Settings.css";
-import { SettingsBlock } from "@/entities/stream";
-import { copyToClipboard } from "@/shared/utils";
+import { SettingsBlock, StreamActionBtn, StreamCoreBtn, StreamCoreInput } from "@/entities/stream";
 import { useToast } from "@/shared/model";
+import { copyToClipboard, handleError } from "@/shared/utils";
+import { useEffect, useState } from "react";
+import { handleGenerateStreamKey } from "../../model/actions";
+import "./Settings.css";
 
-export const StreamKey = ({ userID }) => {
+export const StreamKey = ({ userID, streamKey }) => {
     return (
         <SettingsBlock
             title="Stream Key"
-            action={<KeyField userID={userID} />}
+            action={
+                <KeyField
+                    userID={userID}
+                    streamKey={streamKey}
+                />
+            }
             description={<Description />}
         />
     );
 };
 
 function GenerateKey({ onGenerate, userID }) {
+    const { mutate, isError, isLoading, error } = handleGenerateStreamKey(userID);
+    const { notifyToast } = useToast();
+    useEffect(() => {
+        if (isError) notifyToast(handleError(error).message, true);
+    }, [isError]);
+
     const handleGenerate = async () => {
         // make a call to backend, get generate key. On backend associate key with the user.
-        const key = await handleGenerateStreamKey(userID);
-        onGenerate(key);
+        // onGenerate(key);
+        mutate();
     };
 
     return (
-        <CoreBtnDef
-            className={"px-2 py-1.5"}
-            text={"Generate"}
+        <StreamCoreBtn
+            isError={isError}
+            isLoading={isLoading}
             onClick={handleGenerate}
-        />
+        >
+            New key
+        </StreamCoreBtn>
     );
 }
 
-function KeyField({ userID }) {
-    const [key, setKey] = useState("");
+function KeyField({ userID, streamKey }) {
     const [isVisible, setIsVisible] = useState(false);
     const { notifyToast } = useToast();
     const decode = () => {
-        if (!key) return "";
-
-        return isVisible ? "••••••••••••••••" : key;
+        return !isVisible ? "••••••••••••••••" : streamKey;
     };
 
     const handleCopy = () => {
-        copyToClipboard(key);
+        // copyToClipboard(key);
         notifyToast("Key copied");
     };
 
     return (
         <div className="stream-key-field">
             <div className="stream-key-field-wrapper">
-                <InputField value={decode(false)} />
-                {key ? (
-                    <CoreBtnDef
-                        className={"px-2 py-1.5"}
-                        onClick={handleCopy}
-                        text={"Copy"}
-                    />
-                ) : (
-                    <GenerateKey
-                        userID={userID}
-                        onGenerate={(key) => setKey(key)}
-                    />
-                )}
+                <StreamCoreInput value={decode()} />
+
+                <StreamCoreBtn
+                    className={"px-2 py-1.5"}
+                    onClick={handleCopy}
+                >
+                    Copy
+                </StreamCoreBtn>
+
+                <GenerateKey userID={userID} />
             </div>
-            <button
-                className="key-show-btn"
-                onClick={() => setIsVisible(!isVisible)}
-            >
-                {isVisible ? "hide" : "show"}
-            </button>
+            <StreamActionBtn onClick={() => setIsVisible(!isVisible)}>{isVisible ? "hide" : "show"}</StreamActionBtn>
         </div>
     );
 }
@@ -79,7 +80,7 @@ function Description() {
         <div className="stream-key-description">
             <p>
                 To start streaming through <b>OBS</b> specify server{" "}
-                <span className="font-bold text-red-500">rtmp://localhost:1935/live</span> and add your{" "}
+                <span className="font-bold text-stream-accent">rtmp://localhost:1935/live</span> and add your{" "}
                 <b>stream key</b>
             </p>
         </div>

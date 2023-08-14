@@ -1,0 +1,13 @@
+.setting_block_container {
+    @apply w-full h-max py-4 px-3 flex items-start gap-3;
+}
+
+.title_wrapper {
+    > h2 {
+        @apply text-xl font-bold text-center break-keep text-white;
+    }
+}
+
+.main_wrapper {
+    @apply flex flex-col gap-1 w-max;
+}

@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    mode: "jit",
     darkMode: "class",
     content: [
         "./pages/**/*.{js,ts,jsx,tsx}",
@@ -40,12 +39,24 @@ module.exports = {
                     from: { opacity: 0.5, scale: 0.5 },
                     "50%": { opacity: 1, scale: 1.2 },
                     to: { opacity: 0, scale: 1.7 }
+                },
+                errorBtn: {
+                    from: {
+                        transform: "translate(-0.15rem)"
+                    },
+                    "50%": {
+                        transform: "translate(0.15rem)"
+                    },
+                    to: {
+                        transform: "translate(0rem)"
+                    }
                 }
             },
             animation: {
                 fadeIn: "fadeIn .5s ease-in-out",
                 scaleLg: "scaleLg .35s ease-in-out", // not used so far
-                scaleAndFadeout: "scaleAndFadeout .35s ease-in-out"
+                scaleAndFadeout: "scaleAndFadeout .35s ease-in-out",
+                errorBtn: "errorBtn .25s linear"
             }
         }
     },
