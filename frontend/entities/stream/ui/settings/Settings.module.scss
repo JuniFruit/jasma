@@ -4,7 +4,8 @@
 
 .title_wrapper {
     > h2 {
-        @apply text-xl font-bold text-center break-keep text-white;
+        @apply text-xl font-bold text-start text-white;
+        width: 10rem;
     }
 }
 

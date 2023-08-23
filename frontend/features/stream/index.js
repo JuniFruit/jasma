@@ -9,3 +9,4 @@ export {
     handleGetCategories,
     handleGetStreamerProfile
 } from "./model/actions";
+export { StreamInfo } from "./ui/settings/StreamInfo";

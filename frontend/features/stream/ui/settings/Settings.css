@@ -1,28 +1,27 @@
-.stream-key-field {
-    @apply flex gap-1 flex-col items-start;
-}
+/* General */
 
-.action-gen-btn {
-}
-
-.stream-key-field-wrapper {
-    @apply flex gap-3 items-center w-full;
-}
-
-.stream-key-field-wrapper input {
-    @apply w-full;
-}
-
-.stream-key-field button {
-    @apply text-white;
-}
-
-.stream-key-description {
+.stream-settings-description {
     @apply py-2;
 }
 
-.stream-key-description p {
+.stream-settings-description p {
     @apply text-sm text-white;
+}
+
+.stream-settings-field {
+    @apply flex gap-1 flex-col items-start;
+}
+
+.stream-settings-field-wrapper {
+    @apply flex gap-3 items-center w-full;
+}
+
+.stream-settings-field-wrapper input {
+    @apply w-full;
+}
+
+.stream-settings-field button {
+    @apply text-white;
 }
 
 @media (hover: hover) {

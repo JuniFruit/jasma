@@ -4,6 +4,7 @@ import { copyToClipboard, handleError } from "@/shared/utils";
 import { useEffect, useState } from "react";
 import { handleGenerateStreamKey } from "../../model/actions";
 import "./Settings.css";
+import { Description } from "./Shared";
 
 export const StreamKey = ({ userID, streamKey }) => {
     return (
@@ -15,7 +16,7 @@ export const StreamKey = ({ userID, streamKey }) => {
                     streamKey={streamKey}
                 />
             }
-            description={<Description />}
+            description={<KeyFieldDescription />}
         />
     );
 };
@@ -52,13 +53,13 @@ function KeyField({ userID, streamKey }) {
     };
 
     const handleCopy = () => {
-        // copyToClipboard(key);
+        copyToClipboard(streamKey);
         notifyToast("Key copied");
     };
 
     return (
-        <div className="stream-key-field">
-            <div className="stream-key-field-wrapper">
+        <div className="stream-settings-field">
+            <div className="stream-settings-field-wrapper">
                 <StreamCoreInput value={decode()} />
 
                 <StreamCoreBtn
@@ -75,14 +76,14 @@ function KeyField({ userID, streamKey }) {
     );
 }
 
-function Description() {
+function KeyFieldDescription() {
     return (
-        <div className="stream-key-description">
+        <Description>
             <p>
                 To start streaming through <b>OBS</b> specify server{" "}
                 <span className="font-bold text-stream-accent">rtmp://localhost:1935/live</span> and add your{" "}
                 <b>stream key</b>
             </p>
-        </div>
+        </Description>
     );
 }

@@ -1,4 +1,4 @@
-import { StreamKey, handleGetStreamerProfile } from "@/features/stream";
+import { StreamInfo, StreamKey, handleGetStreamerProfile } from "@/features/stream";
 import styles from "./StreamSettings.module.scss";
 import { useAuthStore } from "@/entities/auth";
 import { useEffect } from "react";
@@ -26,6 +26,10 @@ export const StreamSettings = () => {
                         <StreamKey
                             userID={user?.id}
                             streamKey={data.stream_key}
+                        />
+                        <StreamInfo
+                            userID={user?.id}
+                            profileSettings={data.profile_settings}
                         />
                     </>
                 )}

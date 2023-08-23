@@ -53,7 +53,7 @@ export const handleStreamSearch = (searchTerm) => {
  */
 
 export const handleGetCategories = () => {
-    return useQuery("live_categories", getCategories, { enabled: true, onError: handleError, ...DEFAULTS });
+    return useQuery("live_categories", getCategories, { enabled: true, ...DEFAULTS });
 };
 
 /**
